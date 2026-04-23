@@ -1,0 +1,98 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# PyTorch
+*.pth
+*.pt
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+.cache/
+
+# RL specific
+runs/
+logs/
+checkpoints/
+videos/
+*.mp4
+wandb/
+
+# LaTeX
+*.aux
+*.log
+*.toc
+*.out
+*.bbl
+*.blg
+*.lof
+*.lot
+*.fls
+*.dvi
+*.xdv
+*.synctex*
+*.fdb_latexmk
+*.run.xml
+latex.out/
+_minted*/
+draft/
+tmp/
+*.bak
+*.nav
+*.snm
+*.vrb
+*.pdf
+
+# figures
+!/report/figures/*.pdf
+
+/src/setup_competition*.sh
+!/src/setup_competition_template.sh
+
+!/src/training/**/*.pth
+!/src/final_model/**/*.pth
+!/src/final_model/**/*.yaml
+
+# report logs
+!/src/logs_report/2_2/**/**/*.pth
+
+
+
+
+
+

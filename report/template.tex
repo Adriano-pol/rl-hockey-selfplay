@@ -1,0 +1,436 @@
+\documentclass[11pt]{article}
+
+\usepackage{times}
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{url}            % simple URL typesetting
+\usepackage{graphics}
+\usepackage{color}
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{amsmath}       % blackboard math symbols
+\usepackage{amssymb}
+\usepackage{acronym}
+\usepackage{lipsum}
+\usepackage{booktabs}
+\usepackage{caption}
+
+\usepackage{geometry}
+\geometry{left=2.8cm,right=2.8cm,top=2.6cm,bottom=2.6cm}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{hyperref}% should be the last package you include
+\usepackage{graphicx}
+\usepackage{todonotes}
+
+\newcommand{\theteam}{}
+\newcommand{\team}[1]{\def\theteam{#1}}
+
+
+\fancyhead[L]{\theteam}
+\fancyhead[R]{\thepage}
+\cfoot{}
+
+\setlength{\parindent}{0pt}
+
+\team{DRAI: Jannik Rombach, Adriano Polzer}
+\title{RL-Course 2025/26: Final Project Report}
+\author{\theteam}
+
+\begin{document}
+\maketitle
+
+\input{chapters/01_introduction.tex}
+\input{chapters/02_method.tex}
+\input{chapters/03_evaluation.tex}
+\input{chapters/04_discussion.tex}
+
+\newpage
+
+\bibliographystyle{abbrv}
+\bibliography{literatur}
+
+\newpage
+\appendix
+
+
+
+\section{Simple Environment Diagnostics}
+This appendix presents additional training diagnostics and hyperparameter settings for each evaluated simple environment. 
+Training curves illustrate reward progression, loss, and the \ac{SAC} specific entropy temperature.
+
+\subsection{Training Curves}
+\label{app:simple_losses}
+\subsubsection*{Pendulum}
+Figure \ref{fig:pendulum_losses} shows additional training diagnostics for the Pendulum environment. 
+All algorithms converge with respect to reward, actor loss, and critic loss, 
+while \ac{SAC} typically converges slightly faster. 
+The \ac{SAC} entropy temperature $\alpha$ behaves similarly for \ac{PER} and \ac{ER} variants 
+and decreases over time, reflecting increasing policy confidence.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/overview_pendulum.pdf}
+\caption{Training diagnostics for Pendulum environment. 
+    Top left: average episode reward. Top right: \ac{SAC} entropy temperature $\alpha$. 
+    Bottom left: actor loss. Bottom right: critic loss.}
+\label{fig:pendulum_losses}
+\end{figure}
+
+\newpage
+
+\subsubsection*{Lunar Lander}
+Training diagnostics for Lunar Lander are shown in Figure~\ref{fig:lunarlander_losses}. 
+Both algorithms exhibit similar reward convergence behavior. 
+The \ac{SAC} actor loss decreases faster than \ac{TD3}, while \ac{TD3} with \ac{PER} remains high for a longer period during training. 
+The entropy temperature for \ac{PER} remains noticeably higher compared to \ac{ER}, indicating increased exploration pressure throughout training.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/overview_lunar_lander.pdf}
+\caption{Training diagnostics for Lunar Lander environment. 
+    Top left: average episode reward. Top right: \ac{SAC} entropy temperature $\alpha$. 
+    Bottom left: actor loss. Bottom right: critic loss.}
+\label{fig:lunarlander_losses}
+\end{figure}
+
+\newpage
+
+\subsubsection*{Half Cheetah}
+Training diagnostics for Half Cheetah are shown in Figure~\ref{fig:halfcheetah_losses}. 
+All methods converge more slowly compared to the other environments. 
+The highest rewards are achieved by \ac{SAC} with \ac{PER}, while \ac{TD3} achieves comparable 
+performance to \ac{SAC} with \ac{ER}. However, \ac{TD3} with \ac{ER} remains significantly lower in terms of final reward.
+
+Actor losses behave similarly across most configurations, except for \ac{TD3} with \ac{ER}, which 
+exhibits a noticeably higher loss. For the critic loss, the \ac{TD3} \ac{ER} variant again shows 
+lower values compared to the other methods, while \ac{SAC} with \ac{ER} is slightly noisier. 
+Regarding the entropy temperature $\alpha$, \ac{PER} variants require higher values. First, $\alpha$  decreases, then increases, before eventually converging.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/overview_half_cheetah.pdf}
+\caption{Training diagnostics for Half Cheetah environment. 
+    Top left: average episode reward. Top right: \ac{SAC} entropy temperature $\alpha$. 
+    Bottom left: actor loss. Bottom right: critic loss.}
+\label{fig:halfcheetah_losses}
+\end{figure}
+
+
+\newpage
+\subsection{Hyperparameters}
+\label{app:simple_parameters}
+For reproducibility and completeness, the hyperparameters for all environments are listed below. 
+\ac{SAC} typically performs well without extensive hyperparameter tuning, whereas \ac{TD3} often 
+requires more careful parameter selection, particularly when combined with \ac{PER}. 
+This is especially noticeable with respect to network architecture choices.
+\begin{table}[htbp]
+\renewcommand{\arraystretch}{0.85}
+\centering
+\caption{Training hyperparameters for Pendulum}
+\vspace{-0.3cm}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Parameter} 
+& \textbf{SAC} 
+& \textbf{SAC}
+& \textbf{TD3}
+& \textbf{TD3} \\
+\midrule
+
+Replay buffer type
+& ER & PER & ER & PER \\
+
+
+Discount factor $\gamma$
+& 0.98 & 0.98 & 0.98 & 0.98 \\
+
+Actor learning rate
+& $3\times10^{-4}$ & $3\times10^{-4}$ 
+& $3\times10^{-4}$ & $3\times10^{-4}$ \\
+
+Critic learning rate
+& $3\times10^{-4}$ & $3\times10^{-4}$ 
+& $3\times10^{-4}$ & $3\times10^{-4}$ \\
+
+Entropy coefficient $\alpha$
+& 0.2 & 0.2 & -- & -- \\
+
+Replay buffer size
+& $10^5$ & $10^5$ & $10^5$ & $10^5$ \\
+
+Noise
+& -- & -- & 
+$\sigma=0.2$, \newline clip=0.5 
+& $\sigma=0.2$, \newline clip=0.5 \\
+
+Network architecture
+& $[256,256]$ & $[256,256]$ 
+& $[128,128]$ & $[128,128]$ \\
+
+Critic architecture
+& $[256,256,128]$ & $[256,256,128]$ 
+& $[128,128,128]$ & $[128,128,128]$ \\
+
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\renewcommand{\arraystretch}{0.85}
+\centering
+\caption{Training hyperparameters for Lunar Lander}
+\vspace{-0.3cm}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Parameter} 
+& \textbf{SAC} 
+& \textbf{SAC}
+& \textbf{TD3}
+& \textbf{TD3} \\
+\midrule
+
+Replay buffer type
+& ER & PER & ER & PER \\
+
+
+Discount factor $\gamma$
+& 0.99 & 0.99 & 0.99 & 0.99 \\
+
+Actor learning rate
+& $3\times10^{-4}$ & $3\times10^{-4}$ 
+& $3\times10^{-4}$ & $3\times10^{-4}$ \\
+
+Critic learning rate
+& $3\times10^{-4}$ & $3\times10^{-4}$ 
+& $3\times10^{-4}$ & $3\times10^{-4}$ \\
+
+Entropy coefficient $\alpha$
+& 0.2 & 0.2 & -- & -- \\
+
+Replay buffer size
+& $2\times10^5$ & $2\times10^5$ & $2\times10^5$ & $2\times10^5$ \\
+
+Noise
+& -- & -- & 
+$\sigma=0.2$, \newline clip=0.5 
+& $\sigma=0.2$, \newline clip=0.5 \\
+
+Network architecture
+& $[256,256]$ & $[256,256]$ 
+& $[256,256]$ & $[256,256]$ \\
+
+Critic architecture
+& $[256,256,128]$ & $[256,256,128]$ 
+& $[256,256,128]$ & $[256,256,128]$ \\
+
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\renewcommand{\arraystretch}{0.85}
+\centering
+\caption{Training hyperparameters for HalfCheetah}
+\vspace{-0.3cm}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Parameter} 
+& \textbf{SAC} 
+& \textbf{SAC}
+& \textbf{TD3}
+& \textbf{TD3} \\
+\midrule
+
+Replay buffer type
+& ER & PER & ER & PER \\
+
+
+Discount factor $\gamma$
+& 0.99 & 0.99 & 0.99 & 0.99 \\
+
+Actor learning rate
+& $3\times10^{-4}$ & $3\times10^{-4}$ 
+& $3\times10^{-4}$ & $3\times10^{-4}$ \\
+
+Critic learning rate
+& $3\times10^{-4}$ & $3\times10^{-4}$ 
+& $3\times10^{-4}$ & $3\times10^{-4}$ \\
+
+Entropy coefficient $\alpha$
+& 0.2 & 0.2 & -- & -- \\
+
+Replay buffer size
+& $8\times10^5$ & $8\times10^5$ & $8\times10^5$ & $80^5$ \\
+
+Noise
+& -- & -- & 
+$\sigma=0.2$, \newline clip=0.5 
+& $\sigma=0.2$, \newline clip=0.5 \\
+
+Network architecture
+& $[256,256, 256]$ & $[256,256, 256]$ 
+& $[256,256, 256]$ & $[256,256,256]$ \\
+
+Critic architecture
+& $[256,256,256]$ & $[256,256,256]$ 
+& $[256,256,256]$ & $[256,256,256]$ \\
+
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\newpage
+
+\section{Hockey Environment Diagnostics}
+
+This appendix provides additional training diagnostics, hyperparameter settings, and 
+tournament results for the hockey environment experiments described in 
+Section~\ref{sec:eval}.
+
+\subsection{Training Curves}
+\label{app:hockey_curves}
+
+Further training diagnostics are shown in Figure~\ref{fig:hockey_losses}. The \ac{SAC} 
+entropy temperature $\alpha$ decays steadily for both variants, reflecting increasing 
+policy confidence. The \ac{TD3} actor losses decrease monotonically into negative territory 
+as the actor learns to maximize the critic's Q-values. The critic loss of \ac{TD3} Basic 
+appears noisier than the other variants, which may be attributable to the uncorrelated 
+white noise producing more inconsistent transition patterns in the replay buffer. 
+Critic losses decrease across all variants towards the end of training, indicating 
+stable convergence.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/3_2_overview_plot.pdf}
+\caption{Training diagnostics for selected hockey environment configurations. 
+    Top left: average episode reward. Top right: \ac{SAC} entropy temperature $\alpha$. 
+    Bottom left: actor loss. Bottom right: critic loss.}
+\label{fig:hockey_losses}
+\end{figure}
+
+
+\subsection{Hyperparameters}
+
+\vspace{+0.6cm}
+
+\begin{table}[htbp]
+\centering
+\caption{\ac{SAC} hyperparameters.}
+\vspace{-0.3cm}
+\label{tab:sac_hyperparams}
+\begin{tabular}{lc}
+\toprule
+\textbf{Hyperparameter} & \textbf{Value} \\
+\midrule
+Discount factor $\gamma$         & $0.98$ \\
+Soft update $\tau$               & $0.005$ \\
+Actor learning rate              & $3 \times 10^{-4}$ \\
+Critic learning rate             & $3 \times 10^{-4}$ \\
+$\alpha$ learning rate           & $1 \times 10^{-4}$ \\
+Initial entropy coefficient $\alpha$ & $0.2$ \\
+Target entropy                   & $-|\mathcal{A}|$ \\
+Actor architecture               & $[512, 256]$ \\
+Critic architecture              & $[512, 256, 128]$ \\
+Replay buffer size               & $10^6$ \\
+Batch size                       & $256$ \\
+Learning starts                  & $10{,}000$ \\
+Reward shaping: touch puck       & $0.1$ \\
+Reward shaping: puck direction   & $0.05$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{+0.6cm}
+
+\begin{table}[htbp]
+\centering
+\caption{\ac{TD3} hyperparameters.}
+\vspace{-0.3cm}
+\label{tab:td3_hyperparams}
+\begin{tabular}{lc}
+\toprule
+\textbf{Hyperparameter} & \textbf{Value} \\
+\midrule
+Discount factor $\gamma$         & $0.98$ \\
+Soft update $\tau$               & $0.005$ \\
+Actor learning rate              & $3 \times 10^{-4}$ \\
+Critic learning rate             & $3 \times 10^{-4}$ \\
+Policy noise $\sigma$            & $0.2$ \\
+Noise clip                       & $0.5$ \\
+Policy delay                     & $2$ \\
+Exploration noise (pink, $\beta=1$) & $0.15$ \\
+Actor architecture               & $[256, 256, 256]$ \\
+Critic architecture              & $[256, 256, 128]$ \\
+Replay buffer size               & $10^6$ \\
+Batch size                       & $256$ \\
+Learning starts                  & $10{,}000$ \\
+Reward shaping: touch puck       & $0.1$ \\
+Reward shaping: puck direction   & $0.05$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\newpage
+\subsection{Tournament Results}
+
+The tournament was conducted as a full round-robin in which every participant played 
+1000 episodes against every other participant, once as the left and once as the right 
+player. Rankings are determined by the TrueSkill lower confidence bound 
+$\text{LCB} = \mu - 3\sigma$, where $\mu$ denotes the estimated skill and $\sigma$ 
+the uncertainty.
+
+\medskip
+Both agents fine-tuned against the pre-trained opponent pool rank first and second by 
+a clear margin, confirming the effectiveness of diverse opponent training. It is worth 
+noting that all agents ranked below the fine-tuned variants were part of the pre-trained 
+opponent pool during their training, meaning the top agents were explicitly optimized 
+to beat them. Notably, \ac{SAC} trained only against the weak and strong opponent still 
+outperforms \ac{TD3} self-play, suggesting that \ac{TD3} self-play overfits to the strategies 
+present in its own snapshot pool. All learned agents reliably surpass both basic opponents, which rank at the bottom of the leaderboard.
+
+\begin{table}[htbp]
+\centering
+\caption{Final tournament results ranked by TrueSkill LCB ($\mu - 3\sigma$).
+Each participant plays 1000 episodes against every 
+other participant.}
+\label{tab:tournament_results}
+\begin{tabular}{clccccc}
+\toprule
+\textbf{Rank} & \textbf{Agent} & $\mu$ & $\sigma$ & \textbf{LCB} & \textbf{W-L-D} & \textbf{Win Rate} \\
+\midrule
+1 & SAC (pre-trained pool)    & 41.72 & 3.34 & 31.72 & 6520-438-42   & 93.1\% \\
+2 & TD3 (pre-trained pool)    & 36.59 & 3.04 & 27.48 & 5913-1044-43  & 84.5\% \\
+3 & SAC (self-play)           & 32.51 & 2.80 & 24.09 & 4417-2440-143 & 63.1\% \\
+4 & SAC (weak/strong)         & 29.12 & 2.91 & 20.39 & 3558-3251-191 & 50.8\% \\
+5 & TD3 (self-play)           & 25.25 & 2.83 & 16.76 & 3251-3434-315 & 46.4\% \\
+6 & TD3 (weak/strong)         & 21.76 & 2.89 & 13.10 & 2614-4232-154 & 37.3\% \\
+7 & Basic Strong Opponent     & 18.34 & 3.37 &  8.22 & 405-6102-493  &  5.8\% \\
+8 & Basic Weak Opponent       & 10.76 & 4.08 & -1.49 & 339-6076-585  &  4.8\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+
+
+
+
+
+\newpage
+
+\section*{List of Acronyms}
+\begin{acronym}
+
+\acro{DQN}{Deep Q-Network}
+\acro{PPO}{Proximal Policy Optimization}
+\acro{DDPG}{Deep Deterministic Policy Gradient}
+\acro{TD3}{Twin Delayed Deep Deterministic Policy Gradient}
+\acro{SAC}{Soft Actor-Critic}
+\acro{ER}{Experience Replay}
+\acro{PER}{Prioritized Experience Replay}
+\acro{TD}{Temporal Difference}
+
+\end{acronym}
+
+\end{document}

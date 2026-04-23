@@ -1,0 +1,167 @@
+
+% --- Introduction ---
+
+
+% --- Methods ---
+
+@article{mnih2015human:DQN,
+  title     = {Human-level control through deep reinforcement learning},
+  author    = {Mnih, Volodymyr and Kavukcuoglu, Koray and Silver, David and others},
+  journal   = {Nature},
+  volume    = {518},
+  number    = {7540},
+  pages     = {529--533},
+  year      = {2015},
+  publisher = {Nature Publishing Group}
+}
+
+
+@article{SchulmanEtAl2017:PPO,
+  author        = {John Schulman and
+                   Filip Wolski and
+                   Prafulla Dhariwal and
+                   Alec Radford and
+                   Oleg Klimov},
+  title         = {Proximal Policy Optimization Algorithms},
+  journal       = {CoRR},
+  volume        = {abs/1707.06347},
+  year          = {2017},
+  url           = {http://arxiv.org/abs/1707.06347},
+  archiveprefix = {arXiv},
+  eprint        = {1707.06347}
+}
+
+@inproceedings{fujimoto2018:TD3,
+  title     = {Addressing Function Approximation Error in Actor-Critic Methods},
+  author    = {Fujimoto, Scott and van Hoof, Herke and Meger, David},
+  booktitle = {Proceedings of the 35th International Conference on Machine Learning},
+  pages     = {1587--1596},
+  year      = {2018},
+  editor    = {Jennifer Dy and Andreas Krause},
+  volume    = {80},
+  series    = {Proceedings of Machine Learning Research},
+  address   = {Stockholmsmässan, Stockholm Sweden},
+  month     = {10--15 Jul},
+  publisher = {PMLR},
+  pdf       = {http://proceedings.mlr.press/v80/fujimoto18a/fujimoto18a.pdf},
+  url       = {http://proceedings.mlr.press/v80/fujimoto18a.html},
+  abstract  = {In value-based reinforcement learning methods such as deep Q-learning, function approximation errors are known to lead to overestimated value estimates and suboptimal policies. We show that this problem persists in an actor-critic setting and propose novel mechanisms to minimize its effects on both the actor and the critic. Our algorithm builds on Double Q-learning, by taking the minimum value between a pair of critics to limit overestimation. We draw the connection between target networks and overestimation bias, and suggest delaying policy updates to reduce per-update error and further improve performance. We evaluate our method on the suite of OpenAI gym tasks, outperforming the state of the art in every environment tested.}
+}
+
+@article{haarnoja2018:SOFT,
+  title   = {Soft actor-critic: Off-policy maximum entropy deep reinforcement learning with a stochastic actor},
+  author  = {Haarnoja, Tuomas and Zhou, Aurick and Abbeel, Pieter and Levine, Sergey},
+  journal = {International Conference on Machine Learning (ICML)},
+  year    = {2018}
+}
+
+
+% - TD3 -
+
+@article{lillicrap2015:DDPG,
+  title   = {Continuous control with deep reinforcement learning},
+  author  = {Lillicrap, Timothy P and Hunt, Jonathan J and Pritzel, Alexander and Heess, Nicolas and Erez, Tom and Tassa, Yuval and Silver, David and Wierstra, Daan},
+  journal = {arXiv preprint arXiv:1509.02971},
+  year    = {2015}
+}
+
+@inproceedings{silver2014:DPG,
+  title        = {Deterministic Policy Gradient Algorithms},
+  author       = {Silver, David and Lever, Guy and Heess, Nicolas and Degris, Thomas and Wierstra, Daan and Riedmiller, Martin},
+  booktitle    = {Proceedings of the 31st International Conference on Machine Learning (ICML-14)},
+  pages        = {387--395},
+  year         = {2014},
+  organization = {JMLR Workshop and Conference Proceedings}
+}
+
+
+% - SAC -
+
+@phdthesis{ziebart2010,
+  author = {Ziebart, Brian D.},
+  title  = {Modeling Purposeful Adaptive Behavior with the Principle of Maximum Causal Entropy},
+  school = {Carnegie Mellon University},
+  year   = {2010},
+  doi    = {10.1184/R1/6720692.v1},
+  url    = {https://doi.org/10.1184/R1/6720692}
+}
+
+
+@article{kingma2014auto,
+  title   = {Auto-Encoding Variational Bayes},
+  author  = {Kingma, Diederik P. and Welling, Max},
+  journal = {International Conference on Learning Representations (ICLR)},
+  year    = {2014}
+}
+
+@article{haarnoja2018algorithms,
+  author  = {Tuomas Haarnoja and
+             Aurick Zhou and
+             Kristian Hartikainen and
+             George Tucker and
+             Sehoon Ha and
+             Jie Tan and
+             Vikash Kumar and
+             Henry Zhu and
+             Abhishek Gupta and
+             Pieter Abbeel and
+             Sergey Levine},
+  title   = {Soft Actor-Critic Algorithms and Applications},
+  journal = {CoRR},
+  year    = {2018},
+  url     = {http://arxiv.org/abs/1812.05905}
+}
+
+
+% - Improvements -
+
+@article{Schaul2015PrioritizedER,
+  title   = {Prioritized Experience Replay},
+  author  = {Tom Schaul and John Quan and Ioannis Antonoglou and David Silver},
+  journal = {arXiv: Learning},
+  year    = {2015},
+  url     = {https://arxiv.org/abs/1511.05952}
+}
+
+@inproceedings{eberhard2023pink,
+  title     = {Pink Noise Is All You Need: Colored Noise Exploration in Deep Reinforcement Learning},
+  author    = {Eberhard, Onno and Hollenstein, Jakob and Pinneri, Cristina and Martius, Georg},
+  booktitle = {Proceedings of the Eleventh International Conference on Learning Representations (ICLR)},
+  year      = {2023},
+  month     = {May},
+  url       = {https://openreview.net/forum?id=hQ9V5QN27eS}
+}
+
+@article{silver2017mastering,
+  title   = {Mastering Chess and Shogi by Self-Play with a General Reinforcement Learning Algorithm},
+  author  = {Silver, David and Hubert, Thomas and Schrittwieser, Julian and Antonoglou, Ioannis and Lai, Matthew and Guez, Arthur and Lanctot, Marc and Sifre, Laurent and Kumaran, Dharshan and Graepel, Thore and Lillicrap, Timothy and Simonyan, Karen and Hassabis, Demis},
+  journal = {arXiv preprint arXiv:1712.01815},
+  year    = {2017}
+}
+
+
+% --- Evaluation ---
+
+@inproceedings{herbrich2006trueskill,
+  author    = {Herbrich, Ralf and Minka, Tom and Graepel, Thore},
+  title     = {TrueSkill™: A Bayesian Skill Rating System},
+  booktitle = {Advances in Neural Information Processing Systems 19},
+  year      = {2006},
+  pages     = {569--576},
+  publisher = {MIT Press},
+  url       = {https://proceedings.neurips.cc/paper_files/paper/2006/file/f44ee263952e65b3610b8ba51229d1f9-Paper.pdf},
+  pdf       = {https://www.microsoft.com/en-us/research/wp-content/uploads/2007/01/NIPS2006_0688.pdf}
+}[web:63][web:65][web:69]
+
+
+% --- Discussion ---
+ 
+
+
+
+
+
+
+
+
+
